@@ -31,22 +31,23 @@ namespace ProductApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
         {
-            if (createProductDto == null)
-            {
-                return BadRequest("Product data is required.");
-            }
-
+           
             await _productService.CreateProductAsync(createProductDto);
-            return Ok(createProductDto);
+            return Created("Product created successfully!", createProductDto);
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
         {
             await _productService.UpdateProductAsync(updateProductDto);
-            return Ok( updateProductDto);
+            return Created("Product updated successfully!", updateProductDto);
         }
 
         [HttpDelete("{id}")]
